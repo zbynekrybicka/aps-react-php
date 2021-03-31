@@ -13,7 +13,8 @@ if ($_SERVER['argv'][1] === 'build') {
 
 require __DIR__ . '/vendor/autoload.php';
 
-$app = Application::create();
+$application = new Application;
+$app = $application->content();
 
 $loginForm = $app->condition('LoginForm')
     ->selector('isNotLoggedIn')
@@ -23,10 +24,12 @@ $admin = $app->condition('Admin')
     ->selector('isLoggedIn')
     ->expression('*.authToken');
 
+$menu = $app->component('menu');
+
 LoginForm::execute($loginForm);
 
 
 Test::execute($app);
 
 
-$app->export();
+$application->export();

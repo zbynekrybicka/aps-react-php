@@ -30,7 +30,7 @@ class Application
             $test->export();
         }
 
-        foreach (Ajax::$integration as $test) {
+        foreach (Component::$integration as $test) {
             $test->export();
         }
 

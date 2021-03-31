@@ -1,6 +1,8 @@
 <?php
 namespace App\Relation;
 
+use App\Meta\AjaxTest;
+use App\Meta\Api;
 use App\Meta\Component as MetaComponent;
 use App\Meta\Documentation;
 use App\Meta\Slice;
@@ -27,10 +29,14 @@ class Component implements
     /** @var Documentation $documentation */
     public static $documentation;
 
+    /** @var Api $api */
     public static $api;
 
-    private $title;
+    /** @var AjaxTest[] $integration */
+    public static $integration = [];
 
+    /** @var MetaComponent */
+    private $metaComponent;
 
 
     public function constant(string $path, string $value): IComponent
@@ -70,7 +76,11 @@ class Component implements
 
     public function component(string $string): IComponent
     {
-        // TODO: Implement component() method.
+        $component = new Component($string);
+        $this->metaComponent->subComponent($string);
+        $this->metaComponent->content("<$string />");
+        self::$components[] = $component;
+        return $component;
     }
 
     public function condition(string $string): IComponentCondition
