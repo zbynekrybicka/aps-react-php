@@ -1,0 +1,18 @@
+{
+    "name": "zbynekrybicka/aps-react-laravel",
+    "authors": [
+        {
+            "name": "Zbynek Rybicka",
+            "email": "zbynek.rybicka@gmail.com"
+        }
+    ],
+    "require": {
+        "latte/latte": "^2.10",
+        "adbario/php-dot-notation": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

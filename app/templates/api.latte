@@ -1,0 +1,63 @@
+<?php
+
+use App\Request;
+{foreach $resources as $name => $object}
+use App\Service\{$object|firstupper};
+{/foreach}
+use App\Response;
+
+require __DIR__ . '/vendor/autoload.php';
+
+header('Access-Control-Allow-Origin: {=FRONT_URL}');
+header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
+header('Access-Control-Max-Age: 1728000');
+header('Content-Length: 0');
+header('Content-Type: text/plain');
+
+
+$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+{foreach $resources as $name => $object}
+    ${$name} = new {$object|firstupper}();
+{/foreach}
+
+{foreach $requests as $request}
+    $r->addRoute('{$request->method|upper}', '{$request->url}', [${$request->resource|noescape}, '{$request->classMethod}' ]);
+{/foreach}
+});
+
+// Fetch method and URI from somewhere
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
+
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
+}
+$uri = rawurldecode($uri);
+
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
+switch ($routeInfo[0]) {
+    case FastRoute\Dispatcher::NOT_FOUND:
+        // ... 404 Not Found
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        // ... 405 Method Not Allowed
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $handler = $routeInfo[1];
+        $vars = $routeInfo[2];
+        $headers = getallheaders();
+        if (in_array($httpMethod, ['POST', 'PUT'])) {
+            $request = new Request($vars, $headers, (array) json_decode(file_get_contents('php://input')));
+        } else {
+            $request = new Request($vars, $headers, $_GET);
+        }
+        /** @var Response $response */
+        $response = $handler($request);
+        http_response_code($response->code());
+        echo json_encode($response->data());
+        break;
+}

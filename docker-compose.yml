@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+
+  api:
+    build: dist/api
+    volumes:
+        - ./dist/api:/var/www/html
+    ports:
+      - 3001:80
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: psw
+      MYSQL_DATABASE: db
+    ports:
+      - 3002:3306
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    restart: always
+    ports:
+      - 3003:8080
+

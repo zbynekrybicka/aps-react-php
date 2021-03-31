@@ -1,0 +1,21 @@
+it('{$identifier}', () => {
+    cy.visit('{$url}');
+{block steps}
+{if $before}
+{include steps 'steps' => $before->getSteps(), 'before' => $before->getBefore()}
+{/if}
+{foreach $steps as $step}
+{if $step->step === 'type'}
+    cy.get('{$step->element}').should('have.length', 1).and('be.visible').type('{$step->param}');
+{elseif $step->step === 'click'}
+    cy.get('{$step->element}').should('have.length', 1).and('be.visible').click();
+{elseif $step->step === 'check'}
+    cy.get('{$step->element}').should('have.length', {$step->param}).and('be.visible');
+{elseif $step->step === 'checkNot'}
+    cy.get('{$step->element}').should('be.not.visible');
+{elseif $step->step === 'screenshot'}
+    cy.screenshot('{$step->param|replace, '\\', '/'}');
+{/if}
+{/foreach}
+{/block}
+});

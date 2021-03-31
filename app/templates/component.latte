@@ -1,0 +1,26 @@
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+{foreach $slices as $slice}
+  {$slice},
+{/foreach}
+} from '../appSlice';
+{foreach $subComponents as $subComponent}
+import {$subComponent|firstUpper} from './{$subComponent|firstUpper}';
+{/foreach}
+
+export default function {$title|firstupper}(props) {
+  const dispatch = useDispatch();
+{foreach $selectors as $selector}
+  const {$selector} = useSelector(select{$selector|firstupper});
+{/foreach}
+{if $initAjax}
+    dispatch({$initAjax});
+{/if}
+
+  return <div className={'{$title|firstupper}'}>
+{foreach $content as $component}
+      {$component|noescape}
+{/foreach}
+    </div>;
+}

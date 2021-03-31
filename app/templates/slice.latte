@@ -1,0 +1,46 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import moment from 'moment';
+
+export const {$name}Slice = createSlice({
+  name: '{$name}',
+  initialState: {=json_encode($initialState, JSON_PRETTY_PRINT)},
+  reducers: {
+{foreach $reducers as $reducer => $lines}
+    {$reducer}: (state, action) => {
+{foreach $lines as $line}
+      {$line|noescape|replace,'*.', 'state.'}
+{/foreach}
+    },
+{/foreach}
+  },
+});
+
+export const {
+{foreach $reducers as $reducer => $lines}
+  {$reducer},
+{/foreach}
+} = {$name}Slice.actions;
+
+{foreach $ajax as $title => $request}
+export const {$title} = param => dispatch => {
+    dispatch({$request->before}())
+    axios.{$request->method}('{$request->url}', {if in_array($request->method, ['post', 'put'])}param, {/if}{$request->headers|noescape})
+      .then(res => {
+        dispatch({$request->success}(res.data))
+        dispatch({$request->after}())
+      })
+      .catch(err => {
+        dispatch({$request->error}(err))
+        dispatch({$request->after}())
+      })
+};
+
+{/foreach}
+
+{foreach $selectors as $selector => $expression}
+export const select{$selector|firstupper} = state => {$expression|noescape|replace,'*.','state.app.'};
+{/foreach}
+
+export default {$name}Slice.reducer;

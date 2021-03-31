@@ -1,0 +1,30 @@
+<div style="display: table-cell">
+    {foreach $tests as $identifier => $steps}
+        <b>{$identifier}</b>
+        <ul>
+            <li n:foreach="$steps as $step"><b>{$step->step|upper}</b> &ndash; {$step->element} <i>({$step->param})</i></li>
+        </ul>
+    {/foreach}
+</div>
+<div style="display: table-cell">
+{var $noNext = false}
+<ul>
+    <li>App
+        {block componentList}
+            <ul>
+{foreach $components as $component}
+{if $component->parent === $parentComponent && !$noNext}
+{if $iterator->nextValue->title === $component->title}{var $noNext = true}{/if}
+                <li>{$component->title|firstupper} {if $component->condition}({$component->condition}){/if}
+                    {include componentList 'parentComponent' => $component->title}
+                </li>
+{else}{var $noNext = false}
+{/if}
+{/foreach}
+            </ul>
+        {/block}
+    </li>
+</ul>
+</div>
+
+<pre>{=json_encode($state, JSON_PRETTY_PRINT)}</pre>
