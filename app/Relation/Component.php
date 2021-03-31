@@ -6,7 +6,7 @@ use App\Meta\Documentation;
 use App\Meta\Slice;
 use App\Meta\E2ETest;
 
-class Component implements AjaxReturnable
+class Component implements IComponent, AjaxReturnable
 {
 
     /** @var MetaComponent[] $components */
@@ -39,7 +39,7 @@ class Component implements AjaxReturnable
         $this->title = $title;
     }
 
-    public function subComponent(string $title, $begin = '', $end = ''): Component
+    public function component(string $title, $begin = '', $end = ''): IComponent
     {
         static::$documentation->component($title, $this->title);
         $this->metaComponent->subComponent($title);
@@ -73,14 +73,14 @@ class Component implements AjaxReturnable
         return new ComponentElement($this, $this, static::$slice, $title, $begin, $end, "{{$variable}}");
     }
 
-    public function condition($subComponent, $variable, $state): Component
+    public function condition(string $subComponent): IComponentCondition
     {
         static::$documentation->component($subComponent, $this->title, $state);
         $this->metaComponent->slice('select' . ucfirst($variable));
         $this->metaComponent->selector($variable);
         static::$slice->selector($variable, $state);
         static::$slice->state($state, false);
-        return $this->subComponent($subComponent, '{' . $variable . ' && ', '}');
+        return $this->component($subComponent, '{' . $variable . ' && ', '}');
     }
 
 

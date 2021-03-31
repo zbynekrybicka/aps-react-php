@@ -1,4 +1,5 @@
 <?php
+use App\Process\LoginForm;
 use App\Relation\Application;
 
 if ($_SERVER['argv'][1] === 'build') {
@@ -11,7 +12,16 @@ if ($_SERVER['argv'][1] === 'build') {
 
 require __DIR__ . '/vendor/autoload.php';
 
-$app = new Application();
+$app = Application::create();
 
+$loginForm = $app->condition('LoginForm')
+    ->selector('isNotLoggedIn')
+    ->expression('!*.authToken');
+
+$admin = $app->condition('Admin')
+    ->selector('isLoggedIn')
+    ->expression('*.authToken');
+
+LoginForm::execute($loginForm);
 
 $app->export();

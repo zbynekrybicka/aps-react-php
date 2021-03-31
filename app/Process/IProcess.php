@@ -7,11 +7,11 @@
  */
 
 namespace App\Process;
-use App\Relation\Component;
+use App\Relation\IComponent;
 
-interface Process
+interface IProcess
 {
 
-    public static function execute(Component $component = null);
+    public static function execute(IComponent $component = null);
 
 }

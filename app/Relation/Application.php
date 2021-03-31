@@ -7,8 +7,13 @@ use App\Meta\Documentation;
 use App\Meta\E2ETest;
 use App\Meta\Slice;
 
-class Application extends Component
+class Application extends Component implements IApplication
 {
+
+    public static function create(): IApplication
+    {
+        return new self();
+    }
 
 
     public function __construct()
