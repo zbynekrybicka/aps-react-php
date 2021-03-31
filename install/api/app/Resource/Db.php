@@ -6,7 +6,7 @@
  * Time: 17:34
  */
 
-namespace App\Mapper;
+namespace App\Resource;
 
 
 use App\Config;
