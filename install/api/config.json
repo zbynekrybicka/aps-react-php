@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "jwt": "your-256-bit-secret",
+    "db": {
+      "host": "db",
+      "username": "root",
+      "password": "psw",
+      "database": "db"
+    }
+  },
+  "prod": {
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZGZhc2RmMjNhc2RmYXM0ZGFzZGZhc2RmYXNkZjU2NzhhZnNhc2RmZGY5MCIsIm5hbWUiOiJKb2hhc2RmYXNkZmRzYWZmYWRmc2F3ZWFmc2Rmd2VpdcO9enFscmhww63DoXZzZMWvbHF3aHLDqcOhc2RpY2pxc2xka2jEm8Whw7pmd2Vwb2QrxJvDrcSNw6HFocSNdMOhZGNrYXPCqGTDunByd2XCp8WvbGtxV8KnRVJPxaBJUsOJSUVKwqdwcXdvcndlaWZqTE9KRU9QSUpIRcKnUEpPUFRJSsWuRkxLSmlqc2xkaWhnxaHEjcOtw6F1d2XFr2tvZnNuZGdrdWpocnTDqcSbw63EjXLFr3dla2poYXfFr8SNw6HDrXLEm8Whw6lwb2tzZGZpamF3xa9lb3J1xa9wb2prYXNka2pmxa9paHLDqcSbxaF1xa_DqWbDrWF3ZXXCp3B3xaFvcmvFr2p3bGtqYXNkZmFzZG4gZmFzZGZhc2RmRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.nm3r6wNNRkEtnsZOUz7lObNTyB3JxdfEhRMayDu7YHE",
+    "db": {
+      "host": "localhost",
+      "username": "24957_46233",
+      "password": "s6KM2bc4Kk83HtCqVefrhTseT",
+      "database": "24957_album"
+    }
+  }
+}
