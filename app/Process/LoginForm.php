@@ -15,16 +15,20 @@ class LoginForm implements IProcess
         $loginForm->element('input')
             ->className('loginFormUsername')
             ->param('type')->value('text')
-            ->event('change')->reducer('setLoginFormUsername')->line('*.loginForm.username = @')->end()
-            ->param('defaultValue')->selector('loginFormUsername')->expression('*.loginForm.username');
+            ->model('loginFormUsername');
+
+        $loginForm->element('input')
+            ->className('loginFormPassword')
+            ->param('type')->value('password')
+            ->model('loginFormPassword');
 
         $loginForm->element('button')->className('loginFormSubmit')->event('click')
             ->ajax('postLogin')->selector('loginForm')->expression('*.loginForm')
             ->post()->url('/login')->noAuth()->service('user')->method('login')
-            ->before('*.preloader = true')
-            ->success('*.authToken = @')
-            ->errorMessage('Přihlášení se nezdařilo. Zkontrolujte přihlašovací údaje.')
-            ->after('*.preloader = false')->endAjax();
+            ->before('*.preloader = true')->endBefore()
+            ->success('*.authToken = @')->endSuccess()
+            ->error('*.errorMessage = "Přihlášení se nezdařilo. Zkontrolujte přihlašovací údaje."')->endError()
+            ->after('*.preloader = false')->endAfter();
     }
 
 }

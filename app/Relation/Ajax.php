@@ -15,125 +15,106 @@ use App\Meta\Slice;
 use App\Meta\Store;
 use App\Meta\Component as MetaComponent;
 
-class Ajax
+class Ajax implements
+    IAjax,
+    IAjaxDataSelector,
+    IAjaxRequest,
+    IAjaxUrl,
+    IAjaxAuthorization,
+    IAjaxService,
+    IAjaxMethod,
+    IAjaxResponseBefore,
+    IAjaxResponseSuccess
 {
 
-    /** @var Store $store */
-    private $store;
 
-    /** @var Slice[] */
-    private $slice;
-
-    /** @var string $ajax */
-    private $ajax;
-
-    /** @var Api $api */
-    public static $api;
-
-    /** @var AjaxTest[] $integration */
-    public static $integration = [];
-
-    /**
-     * Ajax constructor.
-     * @param Slice $slice
-     * @param string $ajax
-     */
-    public function __construct(AjaxReturnable $element, $slice, $ajax)
+    public function selector(string $string): IAjaxDataSelector
     {
-        $this->slice = $slice;
-        $this->ajax = $ajax;
-        $this->element = $element;
+        // TODO: Implement selector() method.
     }
 
-
-    public function request($method, $url, $headers, $resource, $classMethod): Ajax
+    public function expression(string $string): IAjaxRequest
     {
-        $title = $this->ajax;
-        $this->slice->ajax($title, $method, $this->frontUrl($url), $headers,
-            $title . 'Before',
-            $title . 'After',
-            $title . 'Success',
-            $title . 'Error'
-        );
-        $name = $resource;
-        $object = ucfirst($resource);
-        static::$api->resource($name, $object);
-        static::$api->request($method, $url, $name, $classMethod);
-        return $this;
+        // TODO: Implement expression() method.
     }
 
-    public function setBeforeAfterAsPreloader(): Ajax
+    public function get(): IAjaxUrl
     {
-        $this->slice->reducer($this->ajax . 'Before', ['*.preloader = true']);
-        $this->slice->reducer($this->ajax . 'After', ['*.preloader = false']);
-        return $this;
+        // TODO: Implement get() method.
     }
 
-
-    public function success(array $lines): Ajax
+    public function post(): IAjaxUrl
     {
-        $this->slice->reducer($this->ajax . 'Success', $lines);
-        return $this;
+        // TODO: Implement post() method.
     }
 
-    public function insertAjax(): AjaxReturnable
+    public function put(): IAjaxUrl
     {
-        return $this->element;
+        // TODO: Implement put() method.
     }
 
-    private function frontUrl($url)
+    public function delete(): IAjaxUrl
     {
-        $url = preg_replace('/\{\w+:(\w+)\}/', '$1', $url);
-        return API_URL . preg_replace('/{.*}/', "' + param + '", $url);
+        // TODO: Implement delete() method.
     }
 
-    public function authRequest($method, $url, $authToken, $resource, $classMethod)
+    public function url(string $string): IAjaxAuthorization
     {
-        return $this->request($method, $url, "{ headers: { Authorization: $authToken } }", $resource, $classMethod);
+        // TODO: Implement url() method.
     }
 
-    public function error($reducer): Ajax
+    public function noAuth(): IAjaxService
     {
-        $this->slice->reducer($this->ajax . 'Error', $reducer);
-        return $this;
+        // TODO: Implement noAuth() method.
     }
 
-    public function invisibleBeforeAndAfter(): Ajax
+    public function auth(): IAjaxService
     {
-        $this->slice->reducer($this->ajax . 'Before', []);
-        $this->slice->reducer($this->ajax . 'After', []);
-        return $this;
+        // TODO: Implement auth() method.
     }
 
-    public function before($lines): Ajax
+    public function service(string $string): IAjaxMethod
     {
-        $this->slice->reducer($this->ajax . 'Before', $lines);
-        return $this;
+        // TODO: Implement service() method.
     }
 
-    public function after($lines): Ajax
+    public function method(string $string): IAjaxResponseBefore
     {
-        $this->slice->reducer($this->ajax . 'After', $lines);
-        return $this;
+        // TODO: Implement method() method.
     }
 
-    public function noError(): Ajax
+    public function beforePreloader(): IAjaxResponseSuccess
     {
-        $this->slice->reducer($this->ajax . 'Error', []);
-        return $this;
+        // TODO: Implement beforePreloader() method.
     }
 
-    public function errorMessage(): Ajax
+    public function before(string $string): IAjaxResponseBefore
     {
-        $this->slice->reducer( $this->ajax . 'Error', [ '*.errorMessage = action.payload.response.data' ]);
-        return $this;
+        // TODO: Implement before() method.
     }
 
-    /*public function test($title, $method, $url, $data, $result, $headers = null): AjaxTest
+    public function success(string $string): IAjaxResponseSuccess
     {
-        static::$integration[] = new AjaxTest(__DIR__ . '/../../dist/api/tests/' . $title . 'spec.php', $method, $url, $data, $result, $headers);
+        // TODO: Implement success() method.
+    }
 
-    }*/
+    public function error(string $string): IAjaxResponseError
+    {
+        // TODO: Implement error() method.
+    }
 
+    public function errorMessage(string $string): IAjaxResponseAfter
+    {
+        // TODO: Implement errorMessage() method.
+    }
 
+    public function endBefore(): IAjaxResponseSuccess
+    {
+        // TODO: Implement endBefore() method.
+    }
+
+    public function endSuccess(): IAjaxResponseError
+    {
+        // TODO: Implement endSuccess() method.
+    }
 }

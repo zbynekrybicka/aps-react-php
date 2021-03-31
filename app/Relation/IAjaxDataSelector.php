@@ -12,5 +12,5 @@ namespace App\Relation;
 interface IAjaxDataSelector
 {
 
-    public function expression($string): IAjaxRequest;
+    public function expression(string $string): IAjaxRequest;
 }

@@ -12,5 +12,5 @@ namespace App\Relation;
 interface IAjaxMethod
 {
 
-    public function method($string): IAjaxResponseBeforeReducer;
+    public function method(string $string): IAjaxResponseBefore;
 }

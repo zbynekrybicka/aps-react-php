@@ -12,7 +12,6 @@ namespace App\Relation;
 interface IAjaxResponseSuccess
 {
 
-    public function success($string): IAjaxResponseSuccessReducer;
-    public function error($string): IAjaxResponseErrorReducer;
-    public function errorMessage($string): IAjaxResponseAfterReducer;
+    public function success(string $string): IAjaxResponseSuccess;
+    public function endSuccess(): IAjaxResponseError;
 }

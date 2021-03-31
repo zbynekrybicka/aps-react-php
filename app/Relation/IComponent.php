@@ -16,7 +16,11 @@ interface IComponent
     public function condition(string $string): IComponentCondition;
 
     public function element(string $string): IElement;
+
 //    public function cycle(string $string): IComponentCycle;
 //    public function element(string $string): IElement;
+
+    public function test(string $identifier, string $before = ''): ITest;
+    public function constant(string $path, string $value): IComponent;
 
 }

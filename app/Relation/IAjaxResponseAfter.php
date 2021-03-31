@@ -9,10 +9,10 @@
 namespace App\Relation;
 
 
-interface IAjaxResponseAfterReducer
+interface IAjaxResponseAfter
 {
 
-    public function after($string): IAjaxResponseAfterReducer;
+    public function after($string): IAjaxResponseAfter;
     public function afterPreloader(): IElement;
-    public function endAjax(): IElement;
+    public function endAfter(): IElement;
 }

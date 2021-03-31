@@ -14,4 +14,6 @@ interface IApplication extends IComponent
 
     public function export();
 
+    public function test(string $identifier, string $before = '');
+
 }

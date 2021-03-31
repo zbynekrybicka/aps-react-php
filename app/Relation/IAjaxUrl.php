@@ -12,5 +12,5 @@ namespace App\Relation;
 interface IAjaxUrl
 {
 
-    public function url($string): IAjaxAuthorization;
+    public function url(string $string): IAjaxAuthorization;
 }

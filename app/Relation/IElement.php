@@ -17,4 +17,6 @@ interface IElement
     public function param(string $string): IElementParam;
 
     public function event($string): IElementEvent;
+
+    public function model($string): IElement;
 }

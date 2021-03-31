@@ -12,5 +12,5 @@ namespace App\Relation;
 interface IAjaxService
 {
 
-    public function service($string): IAjaxMethod;
+    public function service(string $string): IAjaxMethod;
 }

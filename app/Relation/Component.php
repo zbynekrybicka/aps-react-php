@@ -6,127 +6,115 @@ use App\Meta\Documentation;
 use App\Meta\Slice;
 use App\Meta\E2ETest;
 
-class Component implements IComponent, AjaxReturnable
+class Component implements
+    IComponent,
+    IElement,
+    IElementParam,
+    IElementSelector,
+    IElementEvent,
+    IElementReducer
 {
 
     /** @var MetaComponent[] $components */
-    protected static $components = [];
+    public static $components = [];
 
     /** @var Slice $slice  */
-    protected static $slice;
+    public static $slice;
 
     /** @var E2ETest[] $tests  */
     public static $tests = [];
 
-    /** @var MetaComponent $metaComponent */
-    protected $metaComponent;
-
-    /** @var MetaComponent $metaComponent */
-    private static $paramMetaComponent;
-
     /** @var Documentation $documentation */
-    protected static $documentation;
+    public static $documentation;
+
+    public static $api;
 
     private $title;
 
 
 
-    public function __construct($title) {
-        $component = new MetaComponent(__DIR__ . '/../../dist/front/src/app/components/' . ucfirst($title) . '.js', $title);
-        static::$components[] = $component;
-        self::$paramMetaComponent = $component;
-        $this->metaComponent = $component;
-        $this->title = $title;
-    }
-
-    public function component(string $title, $begin = '', $end = ''): IComponent
+    public function constant(string $path, string $value): IComponent
     {
-        static::$documentation->component($title, $this->title);
-        $this->metaComponent->subComponent($title);
-        $this->metaComponent->content($begin . '<' . ucfirst($title) . ' />' . $end);
-        return new Component($title);
-    }
-
-    public function subComponentWithParams(string $title, $begin = '', $end = ''): ComponentElement
-    {
-        static::$documentation->component($title, $this->title);
-        $this->metaComponent->subComponent($title);
-        return new ComponentElement($this, new Component($title), static::$slice, $title, $begin, $end);
-    }
-
-    public function element(string $title, $begin = '', $end = ''): ComponentElement
-    {
-        return new ComponentElement($this, $this, static::$slice, $title, $begin, $end);
-    }
-
-    public function elementWithLabel(string $title, string $label, $begin = '', $end = ''): ComponentElement
-    {
-        return new ComponentElement($this, $this, static::$slice, $title, $begin, $end, $label);
-    }
-
-    public function elementWithState($title, $variable, $state, $begin = '', $end = '')
-    {
-        $this->metaComponent->slice('select' . ucfirst($variable));
-        $this->metaComponent->selector($variable);
-        static::$slice->selector($variable, $state);
-        static::$slice->state($state, '');
-        return new ComponentElement($this, $this, static::$slice, $title, $begin, $end, "{{$variable}}");
-    }
-
-    public function condition(string $subComponent): IComponentCondition
-    {
-        static::$documentation->component($subComponent, $this->title, $state);
-        $this->metaComponent->slice('select' . ucfirst($variable));
-        $this->metaComponent->selector($variable);
-        static::$slice->selector($variable, $state);
-        static::$slice->state($state, false);
-        return $this->component($subComponent, '{' . $variable . ' && ', '}');
-    }
-
-
-    public function getMeta()
-    {
-        return $this->metaComponent;
-    }
-
-    public function inputElement(string $type, string $placeholder, string $variable, string $path): Component
-    {
-        return $this->element('input')
-            ->paramValue('type', $type)
-            ->paramValue('placeholder', $placeholder)
-            ->paramValue('name', $variable)
-            ->paramState('defaultValue', $variable, $path)
-            ->paramEventReducer('change', 'set' . ucfirst($variable), [ $path . ' = action.payload' ])
-            ->insertElement();
-    }
-
-    public function initAjax($ajax, $param = '', $state = '')
-    {
-        $this->metaComponent->initAjax($ajax, $param);
-        $this->metaComponent->slice($ajax);
-        if ($param) {
-            $this->metaComponent->slice('select' . ucfirst($param));
-            $this->metaComponent->selector($param);
-            static::$slice->selector($param, $state);
-        }
-        return new Ajax($this, static::$slice, $ajax);
-    }
-
-
-    public function insertElement(): Component
-    {
+        Component::$slice->state($path, $value);
         return $this;
     }
 
-    public function cycleComponent(string $subComponent, string $variable, string $path): Component
+    public function test(string $identifier, string $connectedOn = ''): ITest
     {
-        static::$documentation->component($subComponent, $this->title, "FOR: $path");
-        $this->metaComponent->slice('select' . ucfirst($variable));
-        $this->metaComponent->selector($variable);
-        static::$slice->selector($variable, $path);
-        static::$slice->state($path, false);
-        $this->metaComponent->subComponent($subComponent);
-        $this->metaComponent->content('{' . $variable . '.map((item, key) => <' . ucfirst($subComponent) . ' item={item} key={key} />)}');
-        return new Component($subComponent);
+        $test = new E2ETest(__DIR__ . '/../../cypress/integration/' . $identifier . '.spec.js', $identifier, $connectedOn, FRONT_URL, Component::$documentation);
+        Component::$tests[$identifier] = $test;
+        return $test;
+    }
+
+
+
+    public function className(string $string): IElement
+    {
+        // TODO: Implement className() method.
+    }
+
+    public function param(string $string): IElementParam
+    {
+        // TODO: Implement param() method.
+    }
+
+    public function event($string): IElementEvent
+    {
+        // TODO: Implement event() method.
+    }
+
+    public function model($string): IElement
+    {
+        // TODO: Implement model() method.
+    }
+
+    public function component(string $string): IComponent
+    {
+        // TODO: Implement component() method.
+    }
+
+    public function condition(string $string): IComponentCondition
+    {
+        // TODO: Implement condition() method.
+    }
+
+    public function element(string $string): IElement
+    {
+        // TODO: Implement element() method.
+    }
+
+    public function value(string $string): IElement
+    {
+        // TODO: Implement value() method.
+    }
+
+    public function selector($string): IElementSelector
+    {
+        // TODO: Implement selector() method.
+    }
+
+    public function expression($string): IElement
+    {
+        // TODO: Implement expression() method.
+    }
+
+    public function reducer($string): IElementReducer
+    {
+        // TODO: Implement reducer() method.
+    }
+
+    public function ajax($string): IAjax
+    {
+        // TODO: Implement ajax() method.
+    }
+
+    public function line($string): IElementReducer
+    {
+        // TODO: Implement line() method.
+    }
+
+    public function end(): IElement
+    {
+        // TODO: Implement end() method.
     }
 }

@@ -1,5 +1,6 @@
 <?php
 use App\Process\LoginForm;
+use App\Process\Test;
 use App\Relation\Application;
 
 if ($_SERVER['argv'][1] === 'build') {
@@ -23,5 +24,9 @@ $admin = $app->condition('Admin')
     ->expression('*.authToken');
 
 LoginForm::execute($loginForm);
+
+
+Test::execute($app);
+
 
 $app->export();
