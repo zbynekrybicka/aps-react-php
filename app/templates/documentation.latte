@@ -2,7 +2,7 @@
     {foreach $tests as $identifier => $steps}
         <b>{$identifier}</b>
         <ul>
-            <li n:foreach="$steps as $step"><b>{$step->step|upper}</b> &ndash; {$step->element} <i>({$step->param})</i></li>
+            <li n:foreach="$steps as $step"><b>{$step->step|upper}</b> &ndash; {$step->element} <i>({$step->param ?? ''})</i></li>
         </ul>
     {/foreach}
 </div>

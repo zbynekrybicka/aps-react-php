@@ -4,3 +4,4 @@ vendor/*
 dist/*
 db_data/*
 documentation.html
+app/temp/*

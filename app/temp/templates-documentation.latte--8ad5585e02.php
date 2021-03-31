@@ -29,7 +29,7 @@ final class Template8ad5585e02 extends Latte\Runtime\Template
 				echo '</b> &ndash; ';
 				echo LR\Filters::escapeHtmlText($step->element) /* line 5 */;
 				echo ' <i>(';
-				echo LR\Filters::escapeHtmlText($step->param) /* line 5 */;
+				echo LR\Filters::escapeHtmlText($step->param ?? '') /* line 5 */;
 				echo ')</i></li>
 ';
 				$iterations++;
