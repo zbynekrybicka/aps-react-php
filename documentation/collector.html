@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        .cell {
+            display: inline-block;
+            width: auto;
+            border: 1px solid black;
+            padding: 5px;
+            margin-bottom: 5px;
+            font-family: Verdana, sans-serif;
+        }
+        .primary {
+            background-color: lightblue;
+        }
+        .from {
+            background-color: lightgreen;
+        }
+        .selected {
+            background-color: lightcoral;
+        }
+        li b {
+            cursor: pointer;
+        }
+    </style>
+<body>
+<div id="app">
+    <div :class="['cell',
+        selected == 'Ajax' ? 'selected' : '',
+        from == 'Ajax' ? 'from' : '',
+        'Application' == 'Ajax' ? 'primary' : '']">
+        <b>Ajax</b>
+        <ul>
+            <li>insertElement &ndash; <b @click="from = 'Ajax'; selected = 'Component'">Component</b></li>
+            <li>get &ndash; <b @click="from = 'Ajax'; selected = 'AjaxUrl'">AjaxUrl</b></li>
+            <li>post &ndash; <b @click="from = 'Ajax'; selected = 'AjaxUrl'">AjaxUrl</b></li>
+            <li>put &ndash; <b @click="from = 'Ajax'; selected = 'AjaxUrl'">AjaxUrl</b></li>
+            <li>delete &ndash; <b @click="from = 'Ajax'; selected = 'AjaxUrl'">AjaxUrl</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxAuth' ? 'selected' : '',
+        from == 'AjaxAuth' ? 'from' : '',
+        'Application' == 'AjaxAuth' ? 'primary' : '']">
+        <b>AjaxAuth</b>
+        <ul>
+            <li>auth &ndash; <b @click="from = 'AjaxAuth'; selected = 'AjaxService'">AjaxService</b></li>
+            <li>noAuth &ndash; <b @click="from = 'AjaxAuth'; selected = 'AjaxService'">AjaxService</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseAfter' ? 'selected' : '',
+        from == 'AjaxResponseAfter' ? 'from' : '',
+        'Application' == 'AjaxResponseAfter' ? 'primary' : '']">
+        <b>AjaxResponseAfter</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'AjaxResponseAfter'; selected = 'AjaxResponseAfterLine'">AjaxResponseAfterLine</b></li>
+            <li>noAfter &ndash; <b @click="from = 'AjaxResponseAfter'; selected = 'ComponentElement'">ComponentElement</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseAfterInit' ? 'selected' : '',
+        from == 'AjaxResponseAfterInit' ? 'from' : '',
+        'Application' == 'AjaxResponseAfterInit' ? 'primary' : '']">
+        <b>AjaxResponseAfterInit</b>
+        <ul>
+            <li>after &ndash; <b @click="from = 'AjaxResponseAfterInit'; selected = 'AjaxResponseAfter'">AjaxResponseAfter</b></li>
+            <li>afterPreloader &ndash; <b @click="from = 'AjaxResponseAfterInit'; selected = 'AjaxResponseAfterPreloader'">AjaxResponseAfterPreloader</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseAfterLine' ? 'selected' : '',
+        from == 'AjaxResponseAfterLine' ? 'from' : '',
+        'Application' == 'AjaxResponseAfterLine' ? 'primary' : '']">
+        <b>AjaxResponseAfterLine</b>
+        <ul>
+            <li>insertElement &ndash; <b @click="from = 'AjaxResponseAfterLine'; selected = 'Component'">Component</b></li>
+            <li>line &ndash; <b @click="from = 'AjaxResponseAfterLine'; selected = 'AjaxResponseAfterLine'">AjaxResponseAfterLine</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseAfterPreloader' ? 'selected' : '',
+        from == 'AjaxResponseAfterPreloader' ? 'from' : '',
+        'Application' == 'AjaxResponseAfterPreloader' ? 'primary' : '']">
+        <b>AjaxResponseAfterPreloader</b>
+        <ul>
+            <li>insertElement &ndash; <b @click="from = 'AjaxResponseAfterPreloader'; selected = 'Component'">Component</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseBefore' ? 'selected' : '',
+        from == 'AjaxResponseBefore' ? 'from' : '',
+        'Application' == 'AjaxResponseBefore' ? 'primary' : '']">
+        <b>AjaxResponseBefore</b>
+        <ul>
+            <li>before &ndash; <b @click="from = 'AjaxResponseBefore'; selected = 'AjaxResponseBeforeLine'">AjaxResponseBeforeLine</b></li>
+            <li>noBefore &ndash; <b @click="from = 'AjaxResponseBefore'; selected = 'AjaxResponseSuccess'">AjaxResponseSuccess</b></li>
+            <li>beforePreloader &ndash; <b @click="from = 'AjaxResponseBefore'; selected = 'AjaxResponseBeforePreloader'">AjaxResponseBeforePreloader</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseBeforeLine' ? 'selected' : '',
+        from == 'AjaxResponseBeforeLine' ? 'from' : '',
+        'Application' == 'AjaxResponseBeforeLine' ? 'primary' : '']">
+        <b>AjaxResponseBeforeLine</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'AjaxResponseBeforeLine'; selected = 'AjaxResponseBeforeLine'">AjaxResponseBeforeLine</b></li>
+            <li>success &ndash; <b @click="from = 'AjaxResponseBeforeLine'; selected = 'AjaxResponseSuccess'">AjaxResponseSuccess</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseBeforePreloader' ? 'selected' : '',
+        from == 'AjaxResponseBeforePreloader' ? 'from' : '',
+        'Application' == 'AjaxResponseBeforePreloader' ? 'primary' : '']">
+        <b>AjaxResponseBeforePreloader</b>
+        <ul>
+            <li>success &ndash; <b @click="from = 'AjaxResponseBeforePreloader'; selected = 'AjaxResponseSuccess'">AjaxResponseSuccess</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseError' ? 'selected' : '',
+        from == 'AjaxResponseError' ? 'from' : '',
+        'Application' == 'AjaxResponseError' ? 'primary' : '']">
+        <b>AjaxResponseError</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'AjaxResponseError'; selected = 'AjaxResponseError'">AjaxResponseError</b></li>
+            <li>after &ndash; <b @click="from = 'AjaxResponseError'; selected = 'AjaxResponseAfter'">AjaxResponseAfter</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseErrorLine' ? 'selected' : '',
+        from == 'AjaxResponseErrorLine' ? 'from' : '',
+        'Application' == 'AjaxResponseErrorLine' ? 'primary' : '']">
+        <b>AjaxResponseErrorLine</b>
+        <ul>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseErrorMessageSelector' ? 'selected' : '',
+        from == 'AjaxResponseErrorMessageSelector' ? 'from' : '',
+        'Application' == 'AjaxResponseErrorMessageSelector' ? 'primary' : '']">
+        <b>AjaxResponseErrorMessageSelector</b>
+        <ul>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseSuccess' ? 'selected' : '',
+        from == 'AjaxResponseSuccess' ? 'from' : '',
+        'Application' == 'AjaxResponseSuccess' ? 'primary' : '']">
+        <b>AjaxResponseSuccess</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'AjaxResponseSuccess'; selected = 'AjaxResponseSuccessLine'">AjaxResponseSuccessLine</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxResponseSuccessLine' ? 'selected' : '',
+        from == 'AjaxResponseSuccessLine' ? 'from' : '',
+        'Application' == 'AjaxResponseSuccessLine' ? 'primary' : '']">
+        <b>AjaxResponseSuccessLine</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'AjaxResponseSuccessLine'; selected = 'AjaxResponseSuccessLine'">AjaxResponseSuccessLine</b></li>
+            <li>error &ndash; <b @click="from = 'AjaxResponseSuccessLine'; selected = 'AjaxResponseError'">AjaxResponseError</b></li>
+            <li>noError &ndash; <b @click="from = 'AjaxResponseSuccessLine'; selected = 'AjaxResponseAfter'">AjaxResponseAfter</b></li>
+            <li>errorMessage &ndash; <b @click="from = 'AjaxResponseSuccessLine'; selected = 'AjaxResponseAfterInit'">AjaxResponseAfterInit</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxService' ? 'selected' : '',
+        from == 'AjaxService' ? 'from' : '',
+        'Application' == 'AjaxService' ? 'primary' : '']">
+        <b>AjaxService</b>
+        <ul>
+            <li>service &ndash; <b @click="from = 'AjaxService'; selected = 'AjaxServiceMethod'">AjaxServiceMethod</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxServiceMethod' ? 'selected' : '',
+        from == 'AjaxServiceMethod' ? 'from' : '',
+        'Application' == 'AjaxServiceMethod' ? 'primary' : '']">
+        <b>AjaxServiceMethod</b>
+        <ul>
+            <li>method &ndash; <b @click="from = 'AjaxServiceMethod'; selected = 'AjaxResponseBefore'">AjaxResponseBefore</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'AjaxUrl' ? 'selected' : '',
+        from == 'AjaxUrl' ? 'from' : '',
+        'Application' == 'AjaxUrl' ? 'primary' : '']">
+        <b>AjaxUrl</b>
+        <ul>
+            <li>url &ndash; <b @click="from = 'AjaxUrl'; selected = 'AjaxAuth'">AjaxAuth</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'Application' ? 'selected' : '',
+        from == 'Application' ? 'from' : '',
+        'Application' == 'Application' ? 'primary' : '']">
+        <b>Application</b>
+        <ul>
+            <li>test &ndash; <b @click="from = 'Application'; selected = 'Cypress'">Cypress</b></li>
+            <li>content &ndash; <b @click="from = 'Application'; selected = 'Component'">Component</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'Component' ? 'selected' : '',
+        from == 'Component' ? 'from' : '',
+        'Application' == 'Component' ? 'primary' : '']">
+        <b>Component</b>
+        <ul>
+            <li>component &ndash; <b @click="from = 'Component'; selected = 'Component'">Component</b></li>
+            <li>condition &ndash; <b @click="from = 'Component'; selected = 'ComponentConditionSelector'">ComponentConditionSelector</b></li>
+            <li>element &ndash; <b @click="from = 'Component'; selected = 'ComponentElement'">ComponentElement</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentConditionExpression' ? 'selected' : '',
+        from == 'ComponentConditionExpression' ? 'from' : '',
+        'Application' == 'ComponentConditionExpression' ? 'primary' : '']">
+        <b>ComponentConditionExpression</b>
+        <ul>
+            <li>expression &ndash; <b @click="from = 'ComponentConditionExpression'; selected = 'Component'">Component</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentConditionSelector' ? 'selected' : '',
+        from == 'ComponentConditionSelector' ? 'from' : '',
+        'Application' == 'ComponentConditionSelector' ? 'primary' : '']">
+        <b>ComponentConditionSelector</b>
+        <ul>
+            <li>selector &ndash; <b @click="from = 'ComponentConditionSelector'; selected = 'ComponentConditionExpression'">ComponentConditionExpression</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElement' ? 'selected' : '',
+        from == 'ComponentElement' ? 'from' : '',
+        'Application' == 'ComponentElement' ? 'primary' : '']">
+        <b>ComponentElement</b>
+        <ul>
+            <li>param &ndash; <b @click="from = 'ComponentElement'; selected = 'ComponentElementParam'">ComponentElementParam</b></li>
+            <li>event &ndash; <b @click="from = 'ComponentElement'; selected = 'ComponentElementEvent'">ComponentElementEvent</b></li>
+            <li>className &ndash; <b @click="from = 'ComponentElement'; selected = 'ComponentElementModel'">ComponentElementModel</b></li>
+            <li>insertElement &ndash; <b @click="from = 'ComponentElement'; selected = 'Component'">Component</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementAjax' ? 'selected' : '',
+        from == 'ComponentElementAjax' ? 'from' : '',
+        'Application' == 'ComponentElementAjax' ? 'primary' : '']">
+        <b>ComponentElementAjax</b>
+        <ul>
+            <li>noData &ndash; <b @click="from = 'ComponentElementAjax'; selected = 'Ajax'">Ajax</b></li>
+            <li>selector &ndash; <b @click="from = 'ComponentElementAjax'; selected = 'ComponentElementAjaxSelector'">ComponentElementAjaxSelector</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementAjaxSelector' ? 'selected' : '',
+        from == 'ComponentElementAjaxSelector' ? 'from' : '',
+        'Application' == 'ComponentElementAjaxSelector' ? 'primary' : '']">
+        <b>ComponentElementAjaxSelector</b>
+        <ul>
+            <li>expression &ndash; <b @click="from = 'ComponentElementAjaxSelector'; selected = 'Ajax'">Ajax</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementEvent' ? 'selected' : '',
+        from == 'ComponentElementEvent' ? 'from' : '',
+        'Application' == 'ComponentElementEvent' ? 'primary' : '']">
+        <b>ComponentElementEvent</b>
+        <ul>
+            <li>ajax &ndash; <b @click="from = 'ComponentElementEvent'; selected = 'ComponentElementAjax'">ComponentElementAjax</b></li>
+            <li>reducer &ndash; <b @click="from = 'ComponentElementEvent'; selected = 'ComponentElementReducer'">ComponentElementReducer</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementModel' ? 'selected' : '',
+        from == 'ComponentElementModel' ? 'from' : '',
+        'Application' == 'ComponentElementModel' ? 'primary' : '']">
+        <b>ComponentElementModel</b>
+        <ul>
+            <li>expression &ndash; <b @click="from = 'ComponentElementModel'; selected = 'ComponentElement'">ComponentElement</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementParam' ? 'selected' : '',
+        from == 'ComponentElementParam' ? 'from' : '',
+        'Application' == 'ComponentElementParam' ? 'primary' : '']">
+        <b>ComponentElementParam</b>
+        <ul>
+            <li>value &ndash; <b @click="from = 'ComponentElementParam'; selected = 'ComponentElement'">ComponentElement</b></li>
+            <li>selector &ndash; <b @click="from = 'ComponentElementParam'; selected = 'ComponentElementParamSelector'">ComponentElementParamSelector</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementParamSelector' ? 'selected' : '',
+        from == 'ComponentElementParamSelector' ? 'from' : '',
+        'Application' == 'ComponentElementParamSelector' ? 'primary' : '']">
+        <b>ComponentElementParamSelector</b>
+        <ul>
+            <li>expression &ndash; <b @click="from = 'ComponentElementParamSelector'; selected = 'ComponentElement'">ComponentElement</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'ComponentElementReducer' ? 'selected' : '',
+        from == 'ComponentElementReducer' ? 'from' : '',
+        'Application' == 'ComponentElementReducer' ? 'primary' : '']">
+        <b>ComponentElementReducer</b>
+        <ul>
+            <li>line &ndash; <b @click="from = 'ComponentElementReducer'; selected = 'ComponentElementReducer'">ComponentElementReducer</b></li>
+            <li>end &ndash; <b @click="from = 'ComponentElementReducer'; selected = 'ComponentElement'">ComponentElement</b></li>
+        </ul>
+    </div>
+    <div :class="['cell',
+        selected == 'Cypress' ? 'selected' : '',
+        from == 'Cypress' ? 'from' : '',
+        'Application' == 'Cypress' ? 'primary' : '']">
+        <b>Cypress</b>
+        <ul>
+            <li>type &ndash; <b @click="from = 'Cypress'; selected = 'Cypress'">Cypress</b></li>
+            <li>click &ndash; <b @click="from = 'Cypress'; selected = 'Cypress'">Cypress</b></li>
+            <li>check &ndash; <b @click="from = 'Cypress'; selected = 'Cypress'">Cypress</b></li>
+            <li>checkNot &ndash; <b @click="from = 'Cypress'; selected = 'Cypress'">Cypress</b></li>
+            <li>screenshot &ndash; <b @click="from = 'Cypress'; selected = 'Cypress'">Cypress</b></li>
+            <li>end &ndash; <b @click="from = 'Cypress'; selected = 'Application'">Application</b></li>
+        </ul>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            selected: null,
+            from: null
+        }
+    })
+</script>
+</body>
+</html>

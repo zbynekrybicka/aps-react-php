@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        .cell {
+            display: inline-block;
+            width: auto;
+            border: 1px solid black;
+            padding: 5px;
+            margin-bottom: 5px;
+            font-family: Verdana, sans-serif;
+        }
+        .primary {
+            background-color: lightblue;
+        }
+        .from {
+            background-color: lightgreen;
+        }
+        .selected {
+            background-color: lightcoral;
+        }
+        li b {
+            cursor: pointer;
+        }
+    </style>
+<body>
+<div id="app">
+    <div :class="['cell',
+        selected == '{$className}' ? 'selected' : '',
+        from == '{$className}' ? 'from' : '',
+        '{$primaryCell}' == '{$className}' ? 'primary' : '']" n:foreach="$data as $className => $relations">
+        <b>{$className}</b>
+        <ul>
+            <li n:foreach="$relations as $method => $target">{$method} &ndash; <b @click="from = '{$className}'; selected = '{$target}'">{$target}</b></li>
+        </ul>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            selected: null,
+            from: null
+        }
+    })
+</script>
+</body>
+</html>

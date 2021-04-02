@@ -14,11 +14,9 @@
             <ul>
 {foreach $components as $component}
 {if $component->parent === $parentComponent && !$noNext}
-{if $iterator->nextValue->title === $component->title}{var $noNext = true}{/if}
                 <li>{$component->title|firstupper} {if $component->condition}({$component->condition}){/if}
                     {include componentList 'parentComponent' => $component->title}
                 </li>
-{else}{var $noNext = false}
 {/if}
 {/foreach}
             </ul>

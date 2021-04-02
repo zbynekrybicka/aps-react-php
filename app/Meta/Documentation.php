@@ -14,7 +14,7 @@ class Documentation extends Meta
     const TEMPLATE = 'documentation';
 
     protected $components = [];
-    protected $parentComponent = 'app';
+    protected $parentComponent = 'App';
     protected $tests = [];
 
     public function component($title, $parent = '', $condition = '')

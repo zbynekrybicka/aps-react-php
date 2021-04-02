@@ -6,7 +6,7 @@ namespace App\Meta;
 use App\Relation\Application;
 use App\Relation\ITest;
 
-class E2ETest extends Meta implements ITest
+class E2ETest extends Meta
 {
     const TEMPLATE = 'cypress';
 
@@ -30,7 +30,7 @@ class E2ETest extends Meta implements ITest
     }
 
 
-    public function type(string $element, string $type): ITest
+    public function type(string $element, string $type)
     {
         $this->steps[] = (object) [
             'step' => 'type',
@@ -41,7 +41,7 @@ class E2ETest extends Meta implements ITest
         return $this;
     }
 
-    public function click(string $element): ITest
+    public function click(string $element)
     {
         $this->steps[] = (object) [
             'step' => 'click',
@@ -51,7 +51,7 @@ class E2ETest extends Meta implements ITest
         return $this;
     }
 
-    public function check(string $element, int $count = 1): ITest
+    public function check(string $element, int $count = 1)
     {
         $this->steps[] = (object) [
             'step' => 'check',
@@ -77,18 +77,18 @@ class E2ETest extends Meta implements ITest
         return $this->identifier;
     }
 
-    public function screenshot(string $filename): ITest
+    public function screenshot(string $filename)
     {
         $this->steps[] = (object) [
             'step' => 'screenshot',
             'element' => null,
-            'param' => $filename . '.png'
+            'param' => $filename
         ];
         $this->documentation->e2e($this->identifier, $this->steps, $this->before);
         return $this;
     }
 
-    public function checkNot(string $element): ITest
+    public function checkNot(string $element)
     {
         $this->steps[] = (object) [
             'step' => 'checkNot',

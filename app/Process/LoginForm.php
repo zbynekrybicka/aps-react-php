@@ -2,33 +2,34 @@
 
 namespace App\Process;
 
-use App\Relation\IComponent;
+use App\Collector\Component;
 
 class LoginForm implements IProcess
 {
 
-    public static function execute(IComponent $loginForm = null)
+    public static function execute(Component $loginForm = null)
     {
         if (!$loginForm) {
             throw new ComponentNotFoundException(__CLASS__);
         }
         $loginForm->element('input')
             ->className('loginFormUsername')
+            ->model('loginFormUsername')->expression('*.loginForm.username')
             ->param('type')->value('text')
-            ->model('loginFormUsername');
+            ->insertElement();
 
         $loginForm->element('input')
             ->className('loginFormPassword')
+            ->model('loginFormPassword')->expression('*.loginForm.password')
             ->param('type')->value('password')
-            ->model('loginFormPassword');
+            ->insertElement();
 
         $loginForm->element('button')->className('loginFormSubmit')->event('click')
             ->ajax('postLogin')->selector('loginForm')->expression('*.loginForm')
             ->post()->url('/login')->noAuth()->service('user')->method('login')
-            ->before('*.preloader = true')->endBefore()
-            ->success('*.authToken = @')->endSuccess()
-            ->error('*.errorMessage = "Přihlášení se nezdařilo. Zkontrolujte přihlašovací údaje."')->endError()
-            ->after('*.preloader = false')->endAfter();
+            ->beforePreloader()->success()->line('*.authToken = @')->errorMessage()->afterPreloader()
+            ->insertElement();
+
     }
 
 }

@@ -10,7 +10,7 @@ export const {$name}Slice = createSlice({
 {foreach $reducers as $reducer => $lines}
     {$reducer}: (state, action) => {
 {foreach $lines as $line}
-      {$line|noescape|replace,'*.', 'state.'}
+      {$line|noescape|replace,'*.', 'state.'|replace,'@','action.payload'}
 {/foreach}
     },
 {/foreach}
@@ -26,7 +26,7 @@ export const {
 {foreach $ajax as $title => $request}
 export const {$title} = param => dispatch => {
     dispatch({$request->before}())
-    axios.{$request->method}('{$request->url}', {if in_array($request->method, ['post', 'put'])}param, {/if}{$request->headers|noescape})
+    axios.{$request->method}('{=API_URL}{$request->url}', {if in_array($request->method, ['post', 'put'])}param.data, {/if}{$request->headers|noescape})
       .then(res => {
         dispatch({$request->success}(res.data))
         dispatch({$request->after}())
@@ -42,5 +42,6 @@ export const {$title} = param => dispatch => {
 {foreach $selectors as $selector => $expression}
 export const select{$selector|firstupper} = state => {$expression|noescape|replace,'*.','state.app.'};
 {/foreach}
+
 
 export default {$name}Slice.reducer;
